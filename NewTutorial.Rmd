@@ -1,0 +1,85 @@
+---
+title: "NewTutorial"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction stuff
+This is where you just put in text and shit
+
+```{r, echo=FALSE}
+x = 1
+#load the data
+ourdata <- read.csv("data/Boats.csv", header = TRUE, sep = ";")
+firstrows <- head(ourdata,5)
+firstrows2 <- ourdata[1:5, 1:3]
+#kable is a beautification package
+knitr::kable(firstrows2)
+```
+
+We now mess around with the correlation of our columns
+
+```{r echo=FALSE}
+colnames(firstrows2) <- substring(colnames(firstrows2), first = 1, last = 4)
+
+firstrows2 <- cbind(firstrows2, 1:10)
+#cbind is used to add a column at the very end with default name 1:10, needs to be overwritten
+firstrows2 <- cbind(firstrows2, 1:nrow(firstrows2))
+
+#correlation on a given matrix
+CorrelationJazz = cor(firstrows2)
+knitr::kable(CorrelationJazz)
+```
+
+## Apply function
+
+```{r}
+tmp = apply(firstrows2, 2, sum)
+knitr::kable(tmp)
+
+tmp2 = apply(firstrows2[1:3], 1, summary)
+knitr::kable(tmp2)
+
+tmp3 = t(tmp2)
+knitr::kable(tmp3)
+
+# t is a function for transpose. But it should be run twice
+
+```
+
+
+## Creating a new function
+
+```{r, echo=FALSE}
+myfunction <- function(inputvar) {
+  
+  sum(inputvar[1:2])
+  
+}
+
+tmp4 = t(apply(firstrows2, 2, myfunction))
+knitr::kable(tmp4)
+
+```
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
